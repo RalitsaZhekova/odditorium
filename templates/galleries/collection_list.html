@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Collections | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Explore the museum</p>
+    <h1>Our collections</h1>
+    <p>Extraordinary inventions, arranged by their questionable purpose.</p>
+
+    {% for collection in collections %}
+        <article class="collection-card">
+            <h2>{{ collection.name }}</h2>
+            <p>{{ collection.description|truncatewords:30 }}</p>
+            <p class="collection-meta">
+                Added {{ collection.created_at|date:"j F Y" }}
+            </p>
+        </article>
+    {% empty %}
+        <section class="empty-state">
+            <h2>The shelves are waiting</h2>
+            <p>
+                No collections yet. Every peculiar museum begins
+                with its first questionable idea.
+            </p>
+        </section>
+    {% endfor %}
+{% endblock %}
