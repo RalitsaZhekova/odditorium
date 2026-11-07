@@ -1,0 +1,9 @@
+:root { color-scheme: light; font-family: Georgia, serif; color: #25251f; background: #f7f2e8; }
+body { max-width: 1100px; margin: auto; padding: 0 24px; }
+header, footer { padding: 28px 0; }
+nav a { color: #354f39; font-size: 1.6rem; font-weight: bold; text-decoration: none; }
+main { padding: 64px 0 96px; min-height: 45vh; }
+h1 { font-size: clamp(2.4rem, 7vw, 4.8rem); line-height: 1.1; max-width: 900px; }
+p { max-width: 640px; font-size: 1.15rem; line-height: 1.6; }
+.eyebrow { color: #73472d; }
+footer { color: #59594b; }
