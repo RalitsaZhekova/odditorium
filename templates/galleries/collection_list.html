@@ -7,6 +7,12 @@
     <h1>Our collections</h1>
     <p>Extraordinary inventions, arranged by their questionable purpose.</p>
 
+    <p>
+        <a class="button" href="{% url 'galleries:collection-create' %}">
+            Create a collection
+        </a>
+    </p>
+
     {% for collection in collections %}
         <article class="collection-card">
             <h2>{{ collection.name }}</h2>

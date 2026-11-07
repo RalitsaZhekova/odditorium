@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a collection | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Make room for the peculiar</p>
+    <h1>Create a collection</h1>
+    <p>Give your next group of wonderfully useless inventions a home.</p>
+
+    <form method="post" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">Create collection</button>
+            <a href="{% url 'galleries:collection-list' %}">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

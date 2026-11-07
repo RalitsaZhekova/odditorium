@@ -47,3 +47,76 @@ main a {
 .empty-state {
     border-style: dashed;
 }
+
+.museum-form {
+    max-width: 640px;
+    margin-top: 32px;
+}
+
+.form-field {
+    margin-bottom: 24px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-field input,
+.form-field textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #8a8578;
+    border-radius: 6px;
+    background: #fffdf8;
+    color: #25251f;
+    font: inherit;
+}
+
+.form-field textarea {
+    resize: vertical;
+}
+
+.help-text {
+    margin: 8px 0;
+    color: #59594b;
+    font-size: 0.9rem;
+}
+
+.errorlist {
+    padding-left: 20px;
+    color: #a12622;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 6px;
+    background: #354f39;
+    color: #fffaf1;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: #263c29;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #9a612e;
+    outline-offset: 3px;
+}
