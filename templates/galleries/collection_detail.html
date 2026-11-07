@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ collection.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Inside the collection</p>
+    <h1>{{ collection.name }}</h1>
+
+    <div class="collection-description">
+        {{ collection.description|linebreaks }}
+    </div>
+
+    <p class="collection-meta">
+        Added {{ collection.created_at|date:"j F Y" }}
+    </p>
+
+    <div class="form-actions">
+        <a
+            class="button"
+            href="{% url 'galleries:collection-edit' collection.pk %}"
+        >
+            Edit collection
+        </a>
+        <a href="{% url 'galleries:collection-delete' collection.pk %}">
+            Delete collection
+        </a>
+        <a href="{% url 'galleries:collection-list' %}">
+            Back to collections
+        </a>
+    </div>
+{% endblock %}

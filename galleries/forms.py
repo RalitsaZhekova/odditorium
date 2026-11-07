@@ -1,5 +1,6 @@
 from django import forms
 
+from common.mixins import DisabledFormMixin
 from galleries.models import Collection
 
 
@@ -18,13 +19,13 @@ class CollectionForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(
                 attrs={
-                    "placeholder": "e.g. Domestic Disasters",
+                    "placeholder": "e.g. Domestic Disasters"
                 }
             ),
             "description": forms.Textarea(
                 attrs={
                     "placeholder": "What peculiar inventions belong here?",
-                    "rows": 5,
+                    "rows": 5
                 }
             )
         }
@@ -33,10 +34,21 @@ class CollectionForm(forms.ModelForm):
                 "required": "Give your collection a name.",
                 "unique": "A collection with this name already exists.",
                 "min_length": "The collection name must have at least 3 characters.",
-                "max_length": "Keep the collection name within 80 characters.",
+                "max_length": "Keep the collection name within 80 characters."
             },
             "description": {
                 "required": "Tell visitors what this collection is about.",
-                "min_length": "Describe the collection in at least 20 characters.",
+                "min_length": "Describe the collection in at least 20 characters."
             }
+        }
+
+class CollectionEditForm(CollectionForm):
+    pass
+
+
+class CollectionDeleteForm(DisabledFormMixin, CollectionForm):
+    class Meta(CollectionForm.Meta):
+        fields = ["name"]
+        help_texts = {
+            "name": "Confirm that this is the collection you want to delete."
         }

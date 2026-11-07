@@ -15,7 +15,11 @@
 
     {% for collection in collections %}
         <article class="collection-card">
-            <h2>{{ collection.name }}</h2>
+            <h2>
+                <a href="{% url 'galleries:collection-detail' collection.pk %}">
+                    {{ collection.name }}
+                </a>
+            </h2>
             <p>{{ collection.description|truncatewords:30 }}</p>
             <p class="collection-meta">
                 Added {{ collection.created_at|date:"j F Y" }}

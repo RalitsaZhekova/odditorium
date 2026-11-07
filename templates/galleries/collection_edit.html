@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ collection.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">A little curatorial adjustment</p>
+    <h1>Edit collection</h1>
+
+    <form method="post" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">Save changes</button>
+            <a href="{% url 'galleries:collection-detail' collection.pk %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}
