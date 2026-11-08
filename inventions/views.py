@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView
 
-# Create your views here.
+from inventions.forms import InventionCreateForm
+from inventions.models import Invention
+
+
+class InventionListView(ListView):
+    model = Invention
+    template_name = "inventions/invention_list.html"
+    context_object_name = "inventions"
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("collection")
+
+class InventionCreateView(CreateView):
+    model = Invention
+    form_class = InventionCreateForm
+    template_name = "inventions/invention_create.html"
+    success_url = reverse_lazy("inventions:invention-list")

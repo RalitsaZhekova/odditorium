@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 
@@ -37,11 +38,26 @@ class CollectionUpdateView(UpdateView):
 
 def collection_delete(request, pk):
     collection = get_object_or_404(Collection, pk=pk)
-    form = CollectionDeleteForm(instance=collection)
 
     if request.method == "POST":
-        collection.delete()
-        return redirect("galleries:collection-list")
+        form = CollectionDeleteForm(
+            request.POST,
+            instance=collection
+        )
+
+        if form.is_valid():
+            try:
+                collection.delete()
+            except ProtectedError:
+                form.add_error(
+                    None,
+                    "This collection still contains inventions. "
+                    "Move or delete them before deleting the collection."
+                )
+            else:
+                return redirect("galleries:collection-list")
+    else:
+        form = CollectionDeleteForm(instance=collection)
 
     context = {
         "collection": collection,

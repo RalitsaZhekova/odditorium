@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Add an invention | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">An idea worth questioning</p>
+    <h1>Add an invention</h1>
+    <p>Document its brilliance, its creator, and its questionable purpose.</p>
+
+    <p>
+        Need a collection first?
+        <a href="{% url 'galleries:collection-create' %}">
+            Create a collection
+        </a>,
+        then return through the Inventions menu.
+    </p>
+
+    <form method="post" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">Add invention</button>
+            <a href="{% url 'inventions:invention-list' %}">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

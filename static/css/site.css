@@ -64,7 +64,8 @@ main a {
 }
 
 .form-field input,
-.form-field textarea {
+.form-field textarea,
+.form-field select {
     box-sizing: border-box;
     width: 100%;
     padding: 12px;
