@@ -9,6 +9,7 @@ class InventionBaseForm(forms.ModelForm):
         fields = [
             "name",
             "description",
+            "image",
             "inventor",
             "absurdity_level",
             "collection"
@@ -16,12 +17,14 @@ class InventionBaseForm(forms.ModelForm):
         labels = {
             "name": "Invention name",
             "description": "About this invention",
+            "image": "Invention image",
             "inventor": "Inventor",
             "absurdity_level": "Absurdity level",
             "collection": "Museum collection"
         }
         help_texts = {
             "description": "Explain its questionable purpose in at least 20 characters.",
+            "image": "Optional. Upload an image up to 5 MB.",
             "absurdity_level": "Choose from 1 (slightly peculiar) to 5 (utterly ridiculous).",
             "collection": "Choose the collection where this invention belongs."
         }
@@ -52,6 +55,11 @@ class InventionBaseForm(forms.ModelForm):
             "description": {
                 "required": "Explain what this invention does.",
                 "min_length": "Describe the invention in at least 20 characters."
+            },
+            "image": {
+                "invalid_image": (
+                    "Upload a valid image file, such as a JPEG or PNG."
+                )
             },
             "inventor": {
                 "required": "Tell us who invented it.",

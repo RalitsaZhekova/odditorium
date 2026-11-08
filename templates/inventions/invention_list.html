@@ -14,20 +14,7 @@
     </p>
 
     {% for invention in inventions %}
-        <article class="collection-card">
-            <h2>{{ invention.name }}</h2>
-            <p>{{ invention.description|truncatewords:30 }}</p>
-            <p>Invented by {{ invention.inventor }}</p>
-
-            <p class="collection-meta">
-                Absurdity: {{ invention.absurdity_level }}/5
-                &middot;
-                Collection:
-                <a href="{% url 'galleries:collection-detail' invention.collection.pk %}">
-                    {{ invention.collection.name }}
-                </a>
-            </p>
-        </article>
+        {% include 'inventions/invention_card.html' with invention=invention only %}
     {% empty %}
         <section class="empty-state">
             <h2>No questionable ideas on display yet</h2>

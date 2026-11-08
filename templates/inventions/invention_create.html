@@ -15,7 +15,7 @@
         then return through the Inventions menu.
     </p>
 
-    <form method="post" class="museum-form">
+        <form method="post" enctype="multipart/form-data" class="museum-form">
         {% csrf_token %}
         {% include 'partials/form_fields.html' %}
 

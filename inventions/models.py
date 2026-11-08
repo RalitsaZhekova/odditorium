@@ -1,5 +1,6 @@
 from django.db import models
 
+from inventions.validators import validate_image_size
 from django.core.validators import MaxValueValidator, MinLengthValidator, MinValueValidator
 
 
@@ -11,6 +12,11 @@ class Invention(models.Model):
     )
     description = models.TextField(
         validators=[MinLengthValidator(20)]
+    )
+    image = models.ImageField(
+        upload_to="inventions/",
+        blank=True,
+        validators=[validate_image_size]
     )
     inventor = models.CharField(
         max_length=80,
