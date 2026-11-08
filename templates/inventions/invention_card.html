@@ -12,7 +12,11 @@
         </div>
     {% endif %}
 
-    <h2>{{ invention.name }}</h2>
+    <h2>
+        <a href="{% url 'inventions:invention-detail' invention.pk %}">
+            {{ invention.name }}
+        </a>
+    </h2>
     <p>{{ invention.description|truncatewords:30 }}</p>
     <p>Invented by {{ invention.inventor }}</p>
 

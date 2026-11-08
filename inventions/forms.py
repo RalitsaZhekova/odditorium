@@ -2,6 +2,8 @@ from django import forms
 
 from inventions.models import Invention
 
+from common.mixins import DisabledFormMixin
+
 
 class InventionBaseForm(forms.ModelForm):
     class Meta:
@@ -81,3 +83,13 @@ class InventionBaseForm(forms.ModelForm):
 
 class InventionCreateForm(InventionBaseForm):
     pass
+
+class InventionEditForm(InventionBaseForm):
+    pass
+
+class InventionDeleteForm(DisabledFormMixin, InventionBaseForm):
+    class Meta(InventionBaseForm.Meta):
+        fields = ["name"]
+        help_texts = {
+            "name": "Confirm that this is the invention you want to delete.",
+        }

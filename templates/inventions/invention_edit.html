@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ invention.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Refine the questionable details</p>
+    <h1>Edit invention</h1>
+
+    <form method="post" enctype="multipart/form-data" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">Save changes</button>
+            <a href="{% url 'inventions:invention-detail' invention.pk %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

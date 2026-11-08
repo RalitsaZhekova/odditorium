@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ invention.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">An exhibit of questionable brilliance</p>
+    <h1>{{ invention.name }}</h1>
+
+    {% if invention.image %}
+        <img
+            class="invention-detail-image"
+            src="{{ invention.image.url }}"
+            alt="{{ invention.name }}"
+        >
+    {% endif %}
+
+    <p>Invented by {{ invention.inventor }}</p>
+
+    <p class="collection-meta">
+        Absurdity: {{ invention.absurdity_level }}/5
+        &middot;
+        Added {{ invention.created_at|date:"j F Y" }}
+    </p>
+
+    <p>
+        Collection:
+        <a href="{% url 'galleries:collection-detail' invention.collection.pk %}">
+            {{ invention.collection.name }}
+        </a>
+    </p>
+
+    <div class="invention-description">
+        {{ invention.description|linebreaks }}
+    </div>
+
+    <div class="form-actions">
+        <a
+            class="button"
+            href="{% url 'inventions:invention-edit' invention.pk %}"
+        >
+            Edit invention
+        </a>
+        <a href="{% url 'inventions:invention-delete' invention.pk %}">
+            Delete invention
+        </a>
+        <a href="{% url 'inventions:invention-list' %}">
+            Back to inventions
+        </a>
+    </div>
+{% endblock %}

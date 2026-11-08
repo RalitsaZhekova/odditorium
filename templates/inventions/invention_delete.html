@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ invention.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Retire this questionable idea?</p>
+    <h1>Delete invention?</h1>
+    <p>
+        This will permanently delete this invention.
+        This action cannot be undone.
+    </p>
+
+    <form method="post" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button button-danger">
+                Delete invention
+            </button>
+            <a href="{% url 'inventions:invention-detail' invention.pk %}">
+                Keep invention
+            </a>
+        </div>
+    </form>
+{% endblock %}
