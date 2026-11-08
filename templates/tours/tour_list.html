@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Tours | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Follow a questionable trail</p>
+    <h1>Museum tours</h1>
+    <p>Explore our inventions through carefully curated journeys.</p>
+
+    <p>
+        <a class="button" href="{% url 'tours:tour-create' %}">
+            Create a tour
+        </a>
+    </p>
+
+    {% for tour in tours %}
+        <article class="collection-card">
+            <h2>
+                <a href="{% url 'tours:tour-detail' tour.pk %}">
+                    {{ tour.name }}
+                </a>
+            </h2>
+            <p>{{ tour.description|truncatewords:30 }}</p>
+            <p class="collection-meta">
+                {{ tour.duration_minutes }} minutes
+                &middot;
+                {{ tour.invention_count }}
+                invention{{ tour.invention_count|pluralize }}
+            </p>
+        </article>
+    {% empty %}
+        <section class="empty-state">
+            <h2>No trails through the peculiar yet</h2>
+            <p>Create a tour and connect your favourite questionable ideas.</p>
+        </section>
+    {% endfor %}
+{% endblock %}

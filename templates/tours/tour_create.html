@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Create a tour | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Connect the curiosities</p>
+    <h1>Create a tour</h1>
+    <p>Choose a theme and the inventions visitors will discover.</p>
+
+    <p>
+        Need more exhibits?
+        <a href="{% url 'inventions:invention-create' %}">
+            Add an invention
+        </a>,
+        then return through the Tours menu.
+    </p>
+
+    <form method="post" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">Create tour</button>
+            <a href="{% url 'tours:tour-list' %}">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

@@ -215,3 +215,29 @@ textarea:focus-visible {
 .invention-description {
     margin: 32px 0;
 }
+
+.form-field input[type="checkbox"] {
+    width: auto;
+    margin: 0 8px 0 0;
+    padding: 0;
+    accent-color: #354f39;
+}
+
+.form-field div label {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    font-weight: normal;
+}
+
+.tour-description {
+    margin: 32px 0;
+}
+
+.tour-inventions {
+    margin-top: 48px;
+}
+
+.tour-inventions > h2 {
+    font-size: 2rem;
+}

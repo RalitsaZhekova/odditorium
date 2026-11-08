@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tour.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Your route through the ridiculous</p>
+    <h1>{{ tour.name }}</h1>
+
+    <p class="collection-meta">
+        Estimated duration: {{ tour.duration_minutes }} minutes
+        &middot;
+        Created {{ tour.created_at|date:"j F Y" }}
+    </p>
+
+    <div class="tour-description">
+        {{ tour.description|linebreaks }}
+    </div>
+
+    <p>
+        <a href="{% url 'tours:tour-list' %}">Back to tours</a>
+    </p>
+
+    <section class="tour-inventions" aria-labelledby="tour-inventions-heading">
+        <h2 id="tour-inventions-heading">Featured inventions</h2>
+
+        <div class="invention-grid">
+            {% for invention in inventions %}
+                {% include 'inventions/invention_card.html' with invention=invention only %}
+            {% empty %}
+                <div class="empty-state">
+                    <h3>This tour is waiting for its exhibits</h3>
+                    <p>Its previously selected inventions may have been removed.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
