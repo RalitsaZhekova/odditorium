@@ -13,12 +13,14 @@
         </a>
     </p>
 
-    {% for invention in inventions %}
-        {% include 'inventions/invention_card.html' with invention=invention only %}
-    {% empty %}
-        <section class="empty-state">
-            <h2>No questionable ideas on display yet</h2>
-            <p>Add the first invention and give visitors something to wonder about.</p>
-        </section>
-    {% endfor %}
+    <div class="invention-grid">
+        {% for invention in inventions %}
+            {% include 'inventions/invention_card.html' with invention=invention only %}
+        {% empty %}
+            <section class="empty-state">
+                <h2>No questionable ideas on display yet</h2>
+                <p>Add the first invention and give visitors something to wonder about.</p>
+            </section>
+        {% endfor %}
+    </div>
 {% endblock %}
