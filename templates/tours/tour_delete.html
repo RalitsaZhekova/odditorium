@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ tour.name }} | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Close this chapter of the museum?</p>
+    <h1>Delete tour?</h1>
+
+    <p>
+        This will permanently delete the tour.
+        Its featured inventions will remain in the museum.
+    </p>
+
+    <form method="post" class="museum-form">
+        {% csrf_token %}
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button button-danger">
+                Delete tour
+            </button>
+            <a href="{% url 'tours:tour-detail' tour.pk %}">
+                Keep tour
+            </a>
+        </div>
+    </form>
+{% endblock %}

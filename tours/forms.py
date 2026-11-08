@@ -1,4 +1,5 @@
 from django import forms
+from common.mixins import DisabledFormMixin
 
 from tours.models import Tour
 
@@ -64,3 +65,13 @@ class TourBaseForm(forms.ModelForm):
 
 class TourCreateForm(TourBaseForm):
     pass
+
+class TourEditForm(TourBaseForm):
+    pass
+
+class TourDeleteForm(DisabledFormMixin, TourBaseForm):
+    class Meta(TourBaseForm.Meta):
+        fields = ["name"]
+        help_texts = {
+            "name": "Confirm that this is the tour you want to delete."
+        }

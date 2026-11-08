@@ -16,9 +16,20 @@
         {{ tour.description|linebreaks }}
     </div>
 
-    <p>
-        <a href="{% url 'tours:tour-list' %}">Back to tours</a>
-    </p>
+    <div class="form-actions">
+        <a
+            class="button"
+            href="{% url 'tours:tour-edit' tour.pk %}"
+        >
+            Edit tour
+        </a>
+        <a href="{% url 'tours:tour-delete' tour.pk %}">
+            Delete tour
+        </a>
+        <a href="{% url 'tours:tour-list' %}">
+            Back to tours
+        </a>
+    </div>
 
     <section class="tour-inventions" aria-labelledby="tour-inventions-heading">
         <h2 id="tour-inventions-heading">Featured inventions</h2>
