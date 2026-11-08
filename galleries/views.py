@@ -24,6 +24,13 @@ class CollectionDetailView(DetailView):
     template_name = "galleries/collection_detail.html"
     context_object_name = "collection"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["inventions"] = (
+            self.object.inventions.select_related("collection")
+        )
+        return context
+
 class CollectionUpdateView(UpdateView):
     model = Collection
     form_class = CollectionEditForm

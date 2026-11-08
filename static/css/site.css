@@ -193,3 +193,11 @@ textarea:focus-visible {
 .form-field input[type="file"] {
     padding: 10px;
 }
+
+.collection-inventions {
+    margin-top: 56px;
+}
+
+.collection-inventions > h2 {
+    font-size: 2rem;
+}

@@ -28,4 +28,28 @@
             Back to collections
         </a>
     </div>
+
+    <section class="collection-inventions" aria-labelledby="inventions-heading">
+        <h2 id="inventions-heading">Inventions in this collection</h2>
+
+        <p>
+            <a
+                class="button"
+                href="{% url 'inventions:invention-create' %}?collection={{ collection.pk }}"
+            >
+                Add invention to this collection
+            </a>
+        </p>
+
+        <div class="invention-grid">
+            {% for invention in inventions %}
+                {% include 'inventions/invention_card.html' with invention=invention only %}
+            {% empty %}
+                <div class="empty-state">
+                    <h3>A collection waiting for its first invention</h3>
+                    <p>Add something wonderfully unnecessary to get started.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}
