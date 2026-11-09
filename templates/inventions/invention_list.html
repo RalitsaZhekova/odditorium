@@ -13,14 +13,39 @@
         </a>
     </p>
 
-    <div class="invention-grid">
-        {% for invention in inventions %}
-            {% include 'inventions/invention_card.html' with invention=invention only %}
-        {% empty %}
-            <section class="empty-state">
-                <h2>No questionable ideas on display yet</h2>
-                <p>Add the first invention and give visitors something to wonder about.</p>
-            </section>
-        {% endfor %}
-    </div>
+    <form method="get" class="museum-form catalogue-search">
+        {% include 'partials/form_fields.html' with form=search_form only %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">Find inventions</button>
+            <a href="{% url 'inventions:invention-list' %}">
+                Reset search
+            </a>
+        </div>
+    </form>
+
+    {% if search_form.errors %}
+        <p role="alert">
+            Please correct the search options above to see matching inventions.
+        </p>
+    {% else %}
+        <p class="collection-meta" role="status">
+            {{ inventions|length }}
+            invention{{ inventions|length|pluralize }} found
+        </p>
+
+        <div class="invention-grid">
+            {% for invention in inventions %}
+                {% include 'inventions/invention_card.html' with invention=invention only %}
+            {% empty %}
+                <section class="empty-state">
+                    <h2>No inventions found</h2>
+                    <p>
+                        Try a different search or collection.
+                        If the museum is still empty, add its first invention.
+                    </p>
+                </section>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

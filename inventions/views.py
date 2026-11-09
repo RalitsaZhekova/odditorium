@@ -4,8 +4,10 @@ from galleries.models import Collection
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 
-from inventions.forms import InventionCreateForm, InventionEditForm, InventionDeleteForm
+from inventions.forms import InventionCreateForm, InventionEditForm, InventionDeleteForm,  InventionSearchForm
 from inventions.models import Invention
+from django.db.models import Q
+from django.db.models.functions import Lower
 
 
 class InventionListView(ListView):
@@ -14,7 +16,41 @@ class InventionListView(ListView):
     context_object_name = "inventions"
 
     def get_queryset(self):
-        return super().get_queryset().select_related("collection")
+        inventions = super().get_queryset().select_related("collection")
+        self.search_form = InventionSearchForm(self.request.GET)
+
+        if not self.search_form.is_valid():
+            return inventions.none()
+
+        query = self.search_form.cleaned_data["query"]
+        collection = self.search_form.cleaned_data["collection"]
+        ordering = self.search_form.cleaned_data["ordering"] or "name"
+
+        if query:
+            inventions = inventions.filter(
+                Q(name__icontains=query)
+                | Q(description__icontains=query)
+                | Q(inventor__icontains=query)
+            )
+
+        if collection is not None:
+            inventions = inventions.filter(collection=collection)
+
+        inventions = inventions.annotate(
+            name_sort=Lower("name")
+        )
+
+        ordering = {
+            "name": "name_sort",
+            "-name": "-name_sort",
+        }.get(ordering, ordering)
+
+        return inventions.order_by(ordering, "name_sort", "pk")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = self.search_form
+        return context
 
 class InventionCreateView(CreateView):
     model = Invention

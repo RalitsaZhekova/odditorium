@@ -1,6 +1,7 @@
 from django import forms
 
 from inventions.models import Invention
+from galleries.models import Collection
 
 from common.mixins import DisabledFormMixin
 
@@ -93,3 +94,39 @@ class InventionDeleteForm(DisabledFormMixin, InventionBaseForm):
         help_texts = {
             "name": "Confirm that this is the invention you want to delete.",
         }
+
+class InventionSearchForm(forms.Form):
+    query = forms.CharField(
+        required=False,
+        max_length=100,
+        label="Search inventions",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by name, description, or inventor"}
+        ),
+        error_messages={
+            "max_length": "Keep your search within 100 characters."
+        }
+    )
+    collection = forms.ModelChoiceField(
+        queryset=Collection.objects.all(),
+        required=False,
+        empty_label="All collections",
+        label="Collection",
+        error_messages={
+            "invalid_choice": "Choose one of the available collections."
+        },
+    )
+    ordering = forms.ChoiceField(
+        required=False,
+        label="Sort by",
+        choices=[
+            ("name", "Name: A–Z"),
+            ("-name", "Name: Z–A"),
+            ("-created_at", "Newest first"),
+            ("-absurdity_level", "Most absurd first"),
+            ("absurdity_level", "Least absurd first")
+        ],
+        error_messages={
+            "invalid_choice": "Choose one of the available sorting options."
+        },
+    )
