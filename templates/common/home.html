@@ -1,11 +1,73 @@
 {% extends 'base.html' %}
+
+{% block title %}Odditorium — Extraordinary ideas{% endblock %}
+
 {% block content %}
-    <p class="eyebrow">Curiosity belongs here</p>
-    <h1>Brilliant ideas.<br>Questionable usefulness.</h1>
-    <p>Welcome to Odditorium, a museum of wonderfully useless inventions.</p>
-    <p>
-        <a href="{% url 'galleries:collection-list' %}">
-            Explore the collections &rarr;
-        </a>
-    </p>
+    <section class="home-hero">
+        <div class="home-introduction">
+            <p class="eyebrow">A museum for the wonderfully unnecessary</p>
+
+            <h1>Extraordinary ideas.<br>Questionable purpose.</h1>
+
+            <p class="hero-description">
+                Discover curious inventions, explore unusual collections,
+                and find your own route through the ridiculous.
+            </p>
+
+            <div class="form-actions">
+                <a class="button" href="{% url 'inventions:invention-list' %}">
+                    Explore inventions
+                </a>
+                <a
+                    class="button button-secondary"
+                    href="{% url 'tours:tour-builder' %}"
+                >
+                    Surprise me &rarr;
+                </a>
+            </div>
+        </div>
+
+        <aside class="featured-exhibit" aria-labelledby="featured-heading">
+            <p class="eyebrow" id="featured-heading">New to the museum</p>
+
+            {% if latest_invention %}
+                {% include 'inventions/invention_card.html' with invention=latest_invention only %}
+            {% else %}
+                <div class="empty-state">
+                    <h2>Every museum starts with an idea.</h2>
+                    <p>Create a collection to make room for your first exhibit.</p>
+                    <a href="{% url 'galleries:collection-create' %}">
+                        Create a collection &rarr;
+                    </a>
+                </div>
+            {% endif %}
+        </aside>
+    </section>
+
+    <section class="museum-overview" aria-labelledby="overview-heading">
+        <div class="section-heading">
+            <h2 id="overview-heading">Find your next curiosity</h2>
+            <p>A small museum. Plenty to explore.</p>
+        </div>
+
+        <div class="museum-statistics">
+            <a class="stat-card" href="{% url 'galleries:collection-list' %}">
+                <span class="stat-value">{{ collection_count }}</span>
+                <span class="stat-label">Collections</span>
+                <span class="stat-description">Explore the departments &rarr;</span>
+            </a>
+
+            <a class="stat-card" href="{% url 'inventions:invention-list' %}">
+                <span class="stat-value">{{ invention_count }}</span>
+                <span class="stat-label">Inventions</span>
+                <span class="stat-description">Meet the exhibits &rarr;</span>
+            </a>
+
+            <a class="stat-card" href="{% url 'tours:tour-list' %}">
+                <span class="stat-value">{{ tour_count }}</span>
+                <span class="stat-label">Tours</span>
+                <span class="stat-description">Discover a different route &rarr;</span>
+            </a>
+        </div>
+    </section>
 {% endblock %}
