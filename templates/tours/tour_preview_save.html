@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Save your surprise tour | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Give the unexpected a name</p>
+    <h1>Save your tour</h1>
+
+    {% if preview_error %}
+        <section class="empty-state" role="alert">
+            <h2>We need a fresh itinerary</h2>
+            <p>{{ preview_error }}</p>
+            <p>
+                <a class="button" href="{% url 'tours:tour-builder' %}">
+                    Build another tour
+                </a>
+            </p>
+        </section>
+    {% else %}
+        <p>
+            Name your tour and describe the experience.
+            Your previewed inventions are already selected.
+        </p>
+
+        <form method="post" class="museum-form">
+            {% csrf_token %}
+            <input
+                type="hidden"
+                name="preview"
+                value="{{ preview_token }}"
+            >
+
+            {% include 'partials/form_fields.html' %}
+
+            <div class="form-actions">
+                <button type="submit" class="button">Save tour</button>
+                <a href="{% url 'tours:tour-builder' %}">
+                    Generate another selection
+                </a>
+            </div>
+        </form>
+
+        <section class="tour-inventions" aria-labelledby="selection-heading">
+            <h2 id="selection-heading">Your selected inventions</h2>
+
+            <div class="invention-grid">
+                {% for invention in inventions %}
+                    {% include 'inventions/invention_card.html' with invention=invention only %}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

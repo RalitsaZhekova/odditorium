@@ -113,3 +113,14 @@ class TourBuilderForm(forms.Form):
             "max_value": "Keep your tour within 12 inventions."
         }
     )
+
+class TourPreviewSaveForm(TourBaseForm):
+    def __init__(self, *args, invention_ids, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.initial["inventions"] = invention_ids
+        self.fields["inventions"].disabled = True
+        self.fields["inventions"].help_text = (
+            "These inventions come from your preview. "
+            "Generate another preview to change the selection."
+        )

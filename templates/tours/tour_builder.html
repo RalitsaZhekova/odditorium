@@ -35,6 +35,15 @@
                 {{ form.cleaned_data.max_absurdity }}/5.
             </p>
 
+            <p>
+                <a
+                    class="button"
+                    href="{% url 'tours:tour-preview-save' %}?preview={{ preview_token|urlencode }}"
+                >
+                    Save this tour
+                </a>
+            </p>
+
             <div class="invention-grid">
                 {% for invention in inventions %}
                     {% include 'inventions/invention_card.html' with invention=invention only %}

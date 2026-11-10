@@ -1,12 +1,17 @@
+from django.core import signing
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from tours.forms import TourBuilderForm, TourCreateForm, TourDeleteForm, TourEditForm
+from inventions.models import Invention
+from tours.forms import TourBuilderForm, TourCreateForm, TourDeleteForm, TourEditForm, TourPreviewSaveForm
 from tours.models import Tour
 from tours.services import select_tour_inventions
+
+TOUR_PREVIEW_SALT = "tours.preview"
+TOUR_PREVIEW_MAX_AGE = 60 * 60
 
 
 class TourListView(ListView):
@@ -90,6 +95,7 @@ def tour_builder(request):
     form = TourBuilderForm(request.GET or None)
     inventions = []
     preview_ready = False
+    preview_token = ""
 
     if form.is_bound and form.is_valid():
         try:
@@ -102,15 +108,107 @@ def tour_builder(request):
             form.add_error("exhibit_count", error)
         else:
             preview_ready = True
+            preview_token = signing.dumps(
+                [invention.pk for invention in inventions],
+                salt=TOUR_PREVIEW_SALT
+            )
 
     context = {
         "form": form,
         "inventions": inventions,
-        "preview_ready": preview_ready
+        "preview_ready": preview_ready,
+        "preview_token": preview_token
     }
 
     return render(
         request,
         "tours/tour_builder.html",
+        context
+    )
+
+def tour_preview_save(request):
+    if request.method == "POST":
+        preview_token = request.POST.get("preview", "")
+    else:
+        preview_token = request.GET.get("preview", "")
+
+    try:
+        invention_ids = signing.loads(
+            preview_token,
+            salt=TOUR_PREVIEW_SALT,
+            max_age=TOUR_PREVIEW_MAX_AGE
+        )
+    except signing.SignatureExpired:
+        return render(
+            request,
+            "tours/tour_preview_save.html",
+            {
+                "preview_error": (
+                    "This preview has expired. "
+                    "Generate another selection to continue."
+                ),
+            },
+            status=400
+        )
+    except signing.BadSignature:
+        return render(
+            request,
+            "tours/tour_preview_save.html",
+            {
+                "preview_error": (
+                    "This preview is missing or invalid. "
+                    "Generate another selection to continue."
+                ),
+            },
+            status=400
+        )
+
+    inventions_by_id = {
+        invention.pk: invention
+        for invention in Invention.objects.filter(
+            pk__in=invention_ids,
+        ).select_related("collection")
+    }
+
+    if len(inventions_by_id) != len(invention_ids):
+        return render(
+            request,
+            "tours/tour_preview_save.html",
+            {
+                "preview_error": (
+                    "An invention in this preview is no longer available. "
+                    "Generate another selection to continue."
+                ),
+            },
+            status=400
+        )
+
+    inventions = [
+        inventions_by_id[invention_id]
+        for invention_id in invention_ids
+    ]
+
+    form = TourPreviewSaveForm(
+        request.POST if request.method == "POST" else None,
+        invention_ids=invention_ids
+    )
+
+    if request.method == "POST" and form.is_valid():
+        tour = form.save()
+
+        return redirect(
+            "tours:tour-detail",
+            pk=tour.pk
+        )
+
+    context = {
+        "form": form,
+        "inventions": inventions,
+        "preview_token": preview_token
+    }
+
+    return render(
+        request,
+        "tours/tour_preview_save.html",
         context
     )
