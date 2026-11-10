@@ -7,11 +7,14 @@
     <h1>Museum tours</h1>
     <p>Explore our inventions through carefully curated journeys.</p>
 
-    <p>
+    <div class="form-actions">
         <a class="button" href="{% url 'tours:tour-create' %}">
             Create a tour
         </a>
-    </p>
+        <a href="{% url 'tours:tour-builder' %}">
+            Surprise me
+        </a>
+    </div>
 
     {% for tour in tours %}
         <article class="collection-card">

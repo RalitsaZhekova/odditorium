@@ -1,10 +1,12 @@
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from tours.forms import TourCreateForm, TourDeleteForm, TourEditForm
+from tours.forms import TourBuilderForm, TourCreateForm, TourDeleteForm, TourEditForm
 from tours.models import Tour
+from tours.services import select_tour_inventions
 
 
 class TourListView(ListView):
@@ -82,4 +84,33 @@ def tour_delete(request, pk):
         request,
         "tours/tour_delete.html",
         context,
+    )
+
+def tour_builder(request):
+    form = TourBuilderForm(request.GET or None)
+    inventions = []
+    preview_ready = False
+
+    if form.is_bound and form.is_valid():
+        try:
+            inventions = select_tour_inventions(
+                collection=form.cleaned_data["collection"],
+                max_absurdity=form.cleaned_data["max_absurdity"],
+                exhibit_count=form.cleaned_data["exhibit_count"]
+            )
+        except ValidationError as error:
+            form.add_error("exhibit_count", error)
+        else:
+            preview_ready = True
+
+    context = {
+        "form": form,
+        "inventions": inventions,
+        "preview_ready": preview_ready
+    }
+
+    return render(
+        request,
+        "tours/tour_builder.html",
+        context
     )

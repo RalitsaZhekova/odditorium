@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Surprise me | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">Leave the itinerary to chance</p>
+    <h1>A little curated chaos</h1>
+    <p>
+        Set your limits, and let the museum choose a selection
+        of wonderfully questionable inventions.
+    </p>
+
+    <form method="get" class="museum-form">
+        {% include 'partials/form_fields.html' %}
+
+        <div class="form-actions">
+            <button type="submit" class="button">
+                {% if preview_ready %}
+                    Try another selection
+                {% else %}
+                    Surprise me
+                {% endif %}
+            </button>
+            <a href="{% url 'tours:tour-list' %}">Back to tours</a>
+        </div>
+    </form>
+
+    {% if preview_ready %}
+        <section class="tour-inventions" aria-labelledby="preview-heading">
+            <h2 id="preview-heading">Your unexpected itinerary</h2>
+            <p>
+                {{ inventions|length }}
+                invention{{ inventions|length|pluralize }},
+                each with an absurdity level no higher than
+                {{ form.cleaned_data.max_absurdity }}/5.
+            </p>
+
+            <div class="invention-grid">
+                {% for invention in inventions %}
+                    {% include 'inventions/invention_card.html' with invention=invention only %}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

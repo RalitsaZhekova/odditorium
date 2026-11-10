@@ -2,6 +2,7 @@ from django import forms
 from common.mixins import DisabledFormMixin
 
 from tours.models import Tour
+from galleries.models import Collection
 
 
 class TourBaseForm(forms.ModelForm):
@@ -75,3 +76,40 @@ class TourDeleteForm(DisabledFormMixin, TourBaseForm):
         help_texts = {
             "name": "Confirm that this is the tour you want to delete."
         }
+
+class TourBuilderForm(forms.Form):
+    collection = forms.ModelChoiceField(
+        queryset=Collection.objects.all(),
+        required=False,
+        empty_label="Across the whole museum",
+        label="Where should we explore?",
+        error_messages={
+            "invalid_choice": "Choose one of the available collections."
+        },
+    )
+    max_absurdity = forms.IntegerField(
+        min_value=1,
+        max_value=5,
+        initial=5,
+        label="Maximum absurdity level",
+        help_text="From 1 (slightly peculiar) to 5 (utterly ridiculous).",
+        error_messages={
+            "required": "Choose the maximum absurdity level.",
+            "invalid": "Enter a whole number.",
+            "min_value": "Choose a level from 1 to 5.",
+            "max_value": "Choose a level from 1 to 5."
+        },
+    )
+    exhibit_count = forms.IntegerField(
+        min_value=1,
+        max_value=12,
+        initial=3,
+        label="Number of exhibits",
+        help_text="Choose between 1 and 12 inventions.",
+        error_messages={
+            "required": "Choose how many inventions to include.",
+            "invalid": "Enter a whole number.",
+            "min_value": "Include at least one invention.",
+            "max_value": "Keep your tour within 12 inventions."
+        }
+    )
