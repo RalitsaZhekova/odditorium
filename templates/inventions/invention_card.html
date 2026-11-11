@@ -1,3 +1,5 @@
+{% load invention_tags %}
+
 <article class="collection-card invention-card">
     {% if invention.image %}
         <img
@@ -17,12 +19,13 @@
             {{ invention.name }}
         </a>
     </h2>
+
     <p>{{ invention.description|truncatewords:30 }}</p>
     <p>Invented by {{ invention.inventor }}</p>
 
+    {% absurdity_badge invention.absurdity_level %}
+
     <p class="collection-meta">
-        Absurdity: {{ invention.absurdity_level }}/5
-        &middot;
         Collection:
         <a href="{% url 'galleries:collection-detail' invention.collection.pk %}">
             {{ invention.collection.name }}

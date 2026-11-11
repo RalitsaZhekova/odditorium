@@ -395,6 +395,30 @@ textarea:focus-visible {
     font-size: 0.9rem;
 }
 
+.absurdity-badge {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    max-width: 100%;
+    margin: 0 0 16px;
+    padding: 8px 12px;
+    border: 1px solid #d8d0bf;
+    border-radius: 8px;
+    background: #f0ecdf;
+    color: #354f39;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.absurdity-score {
+    font-weight: bold;
+}
+
+.invention-card .absurdity-badge {
+    font-size: 0.8rem;
+}
+
 @media (max-width: 700px) {
     .catalogue-search {
         grid-template-columns: 1fr;
@@ -418,5 +442,3 @@ textarea:focus-visible {
         grid-template-columns: 1fr;
     }
 }
-
-
