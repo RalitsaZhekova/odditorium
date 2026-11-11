@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from galleries.models import Collection
@@ -21,3 +22,6 @@ class HomeView(TemplateView):
         )
 
         return context
+
+def page_not_found(request, exception):
+    return render(request, "common/404.html", status=404)

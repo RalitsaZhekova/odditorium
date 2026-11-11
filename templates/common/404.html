@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Page not found | Odditorium{% endblock %}
+
+{% block content %}
+    <p class="eyebrow">404 · Page not found</p>
+    <h1>This exhibit is off display.</h1>
+    <p>The page you were looking for may have moved or been removed.</p>
+
+    <div class="form-actions">
+        <a class="button" href="{% url 'common:home' %}">
+            Back to the museum
+        </a>
+        <a href="{% url 'inventions:invention-list' %}">
+            Browse inventions
+        </a>
+    </div>
+{% endblock %}

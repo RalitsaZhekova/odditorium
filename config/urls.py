@@ -14,3 +14,5 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT,
     )
+
+handler404 = "common.views.page_not_found"

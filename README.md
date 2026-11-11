@@ -25,3 +25,33 @@ python3.13 -m venv .venv
 Open http://127.0.0.1:8000/.
 
 No environment variables or credentials are required. The default settings use SQLite, and migrations create the local database.
+
+## Verify the custom 404 page
+
+Django shows its technical error page when `DEBUG=True`. To see Odditorium’s
+custom 404 page, stop the development server and restart it with debugging
+disabled.
+
+**Windows PowerShell**
+
+```powershell
+$env:DJANGO_DEBUG = "False"
+python manage.py runserver --insecure
+```
+
+**macOS or Linux**
+
+```bash
+DJANGO_DEBUG=False python manage.py runserver --insecure
+```
+
+Open http://127.0.0.1:8000/missing-exhibit/. The custom page should appear,
+and the server log should show HTTP `404`. The `--insecure` flag serves
+the stylesheet during this local check.
+
+After stopping the server in PowerShell, clear the temporary override
+before starting it normally again:
+
+```powershell
+Remove-Item Env:DJANGO_DEBUG
+```
