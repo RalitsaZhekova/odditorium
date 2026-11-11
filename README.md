@@ -1,4 +1,7 @@
 # Odditorium
+Odditorium is a Django museum of wonderfully useless inventions.
+Browse collections, search the invention catalogue, and build a tour by
+hand or let the museum suggest one.
 
 ## Run locally
 
@@ -26,6 +29,27 @@ Open http://127.0.0.1:8000/.
 
 No environment variables or credentials are required. The default settings use SQLite, and migrations create the local database.
 
+## Explore the museum
+
+The database starts empty. You can create everything through the website.
+
+1. Open **Collections** and create a collection.
+2. Open that collection and choose **Add invention to this collection**.
+   Upload an image if you like. Add another invention to try a multi-exhibit tour.
+3. Open **Inventions** to try search, filtering, and sorting.
+4. Open **Tours** to create a tour manually, or choose **Surprise me**.
+   Set the exhibit count to match your available inventions, generate a
+   preview, then choose **Save this tour**.
+
+## Project structure
+
+| App | Responsibility |
+| --- | --- |
+| `common` | Homepage and custom 404 handler |
+| `galleries` | Collections and their exhibits |
+| `inventions` | Invention catalogue, image uploads, search, and filtering |
+| `tours` | Manual tours and the surprise-tour builder |
+
 ## Verify the custom 404 page
 
 Django shows its technical error page when `DEBUG=True`. To see Odditorium’s
@@ -36,13 +60,13 @@ disabled.
 
 ```powershell
 $env:DJANGO_DEBUG = "False"
-python manage.py runserver --insecure
+.\.venv\Scripts\python.exe manage.py runserver --insecure
 ```
 
 **macOS or Linux**
 
 ```bash
-DJANGO_DEBUG=False python manage.py runserver --insecure
+DJANGO_DEBUG=False .venv/bin/python manage.py runserver --insecure
 ```
 
 Open http://127.0.0.1:8000/missing-exhibit/. The custom page should appear,
